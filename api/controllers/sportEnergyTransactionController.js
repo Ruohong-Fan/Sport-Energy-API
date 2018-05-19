@@ -2,13 +2,13 @@ var MongoClient = require('mongodb').MongoClient,
   url = 'mongodb://localhost:27017/';
 
 exports.read_sportEnergyTransaction = function(req, res) {
-  //Search by card number
-  if (req.query.cardNumber) {
+  //Search by account id
+  if (req.query._id) {
     console.log('Read sport energy transaction');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
-      var whereStr = {'cardNumber':req.query.cardNumber};
+      var whereStr = {'_id':ObjectID(req.query._id)};
       dbo.collection('sportEnergyTransaction').find(whereStr).toArray(function(err, sportEnergyTransaction) {
         if (err) throw err;
         res.json(sportEnergyTransaction);
@@ -17,7 +17,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
     });
   }
   //List all
-  else {
+  else if (!req.query) {
     console.log('Read all sport energy transactions');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
