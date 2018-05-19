@@ -17,10 +17,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//created model loading here
-var sportLeaderAccount = require('./api/models/sportEnergyAccountModel');
-var sportLeaderTransaction = require('./api/models/sportEnergyTransactionModel');
-
 //importing route
 var routes = require('./api/routes/sportEnergyRoute');
 //register the route
