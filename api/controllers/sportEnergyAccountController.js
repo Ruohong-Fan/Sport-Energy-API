@@ -79,7 +79,7 @@ exports.update_sportEnergyAccount = function(req, res) {
       var dbo = db.db('sportEnergyDB');
       var myDate = new Date();
       var whereStr = {'cardNumber':req.query.cardNumber};
-      var updateStr = {$set:{'energyBalance':req.body.energyBalance, 'updateTime':myDate.toLocaleString( )}};
+      var updateStr = {$set:{'energyBalance':Number(req.body.energyBalance), 'updateTime':myDate.toLocaleString( )}};
       dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount) {
           if (err) throw err;
           res.json(sportEnergyAccount);

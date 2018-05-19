@@ -36,25 +36,30 @@ exports.create_sportEnergyTransaction = function(req, res) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db('sportEnergyDB');
-    // create sport energy transaction
-    var myDate = new Date();
-    var myobj = {'cardNumber':req.body.cardNumber, 'energyUpdate': req.body.energyUpdate, 'createTime':myDate.toLocaleString( ), 'updateTime':myDate.toLocaleString( )};
-    dbo.collection('sportEnergyTransaction').insert(myobj, function(err, sportEnergyTransaction) {
-      if (err) throw err;
-      res.json(sportEnergyTransaction);
-    });
-    // find current sport energy balance
     var whereStr = {'cardNumber':req.body.cardNumber};
     dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_old) {
       if (err) throw err;
-      console.log(sportEnergyAccount_old[0].energyBalance);
-      // update sport energy balance
-      var updateStr = {$set:{'energyBalance':Number(req.body.energyUpdate)+Number(sportEnergyAccount_old[0].energyBalance), 'updateTime':myDate.toLocaleString( )}};
-      dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount_new) {
-        if (err) throw err;
-        console.log(sportEnergyAccount_new);
+      else if (sportEnergyAccount_old[0]) {
+        console.log(sportEnergyAccount_old);
+        var myDate = new Date();
+        // find & update current sport energy balance
+        var updateStr = {$set:{'energyBalance':Number(req.body.energyUpdate)+Number(sportEnergyAccount_old[0].energyBalance), 'updateTime':myDate.toLocaleString( )}};
+        dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount_new) {
+          if (err) throw err;
+          console.log(sportEnergyAccount_new);
+          db.close();
+        });
+        // create sport energy transaction
+        var myobj = {'cardNumber':req.body.cardNumber, 'energyUpdate': Number(req.body.energyUpdate), 'createTime':myDate.toLocaleString( ), 'updateTime':myDate.toLocaleString( )};
+        dbo.collection('sportEnergyTransaction').insert(myobj, function(err, sportEnergyTransaction) {
+          if (err) throw err;
+          res.json(sportEnergyTransaction);
+        });
+      }
+      else {
+        res.json({Message: 'The card number doesn\'t exist!'})
         db.close();
-      });
+      }
     });
   });
 };
