@@ -40,7 +40,6 @@ exports.create_sportEnergyTransaction = function(req, res) {
     dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_old) {
       if (err) throw err;
       else if (sportEnergyAccount_old[0]) {
-        console.log(sportEnergyAccount_old);
         var myDate = new Date();
         // find & update current sport energy balance
         var updateStr = {$set:{'energyBalance':Number(req.body.energyUpdate)+Number(sportEnergyAccount_old[0].energyBalance), 'updateTime':myDate.toLocaleString( )}};

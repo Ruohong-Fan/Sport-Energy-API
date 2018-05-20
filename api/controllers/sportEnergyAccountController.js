@@ -4,7 +4,7 @@ var MongoClient = require('mongodb').MongoClient,
 
 exports.read_sportEnergyAccount = function(req, res) {
   //If there is no query params, list all
-  if (!req.query) {
+  if (JSON.stringify(req.query) == '{}') {
     console.log('Read all sport energy account');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
@@ -57,14 +57,26 @@ exports.create_sportEnergyAccount = function(req, res) {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
-      var myDate = new Date();
-      var myobj = {'cardNumber':req.body.cardNumber, 'energyBalance': 0, 'accountStatus': 'valid',
-        'createTime':myDate.toLocaleString( ), 'updateTime':myDate.toLocaleString( ), 
-        'createBy':req.body.operator, 'updateBy':req.body.operator};
-      dbo.collection('sportEnergyAccount').insert(myobj, function(err, sportEnergyAccount) {
-          if (err) throw err;
-          res.json(sportEnergyAccount);
+      var whereStr = {'cardNumber':req.body.cardNumber};
+      dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_exist) {
+        if (err) throw err;
+        //If the card number already has energy account, stop creation
+        else if (sportEnergyAccount_exist[0]) {
+          res.json({Message: 'This card number already has an energy account.'});
           db.close();
+        }
+        //Create point account with card number and record operator
+        else {
+          var myDate = new Date();
+          var myobj = {'cardNumber':req.body.cardNumber, 'energyBalance': 0, 'accountStatus': 'valid',
+            'createTime':myDate.toLocaleString( ), 'updateTime':myDate.toLocaleString( ), 
+            'createBy':req.body.operator, 'updateBy':req.body.operator};
+          dbo.collection('sportEnergyAccount').insert(myobj, function(err, sportEnergyAccount) {
+              if (err) throw err;
+              res.json(sportEnergyAccount);
+              db.close();
+          });
+        }
       });
     });
   }
@@ -75,17 +87,28 @@ exports.create_sportEnergyAccount = function(req, res) {
 };
 
 exports.delete_sportEnergyAccount = function(req, res) {
-  //Delete by account id
+  //Delete only by account id
   if (req.query._id) {
     console.log('Delete sport energy account by card number');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
       var whereStr = {'_id':ObjectID(req.query._id)};
-      dbo.collection('sportEnergyAccount').deleteOne(whereStr, function(err, sportEnergyAccount) {
+      dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_exist) {
         if (err) throw err;
-        res.json(sportEnergyAccount);
-        db.close();
+        //If the account id exists, delete account
+        else if (sportEnergyAccount_exist[0]) {
+          dbo.collection('sportEnergyAccount').deleteOne(whereStr, function(err, sportEnergyAccount) {
+            if (err) throw err;
+            res.json(sportEnergyAccount);
+            db.close();
+          });
+        }
+        //Otherwise, stop deletion process
+        else {
+          res.json({Message: 'This account id doesn\'t exist.'});
+          db.close();
+        }
       });
     });
   }
@@ -102,13 +125,24 @@ exports.update_sportEnergyAccount = function(req, res) {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
-      var myDate = new Date();
       var whereStr = {'_id':ObjectID(req.query._id)};
-      var updateStr = {$set:{'cardNumber':req.body.cardNumber, 'energyBalance':Number(req.body.energyBalance), 'accountStatus':req.body.accountStatus, 'updateTime':myDate.toLocaleString( ), 'updateBy':req.body.operator}};
-      dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount) {
-          if (err) throw err;
-          res.json(sportEnergyAccount);
+      dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_old) {
+        if (err) throw err;
+        //If the account id exists, update account
+        else if (sportEnergyAccount_old[0]) {
+          var myDate = new Date();
+          var updateStr = {$set:{'cardNumber':req.body.cardNumber, 'energyBalance':Number(req.body.energyBalance), 'accountStatus':req.body.accountStatus, 'updateTime':myDate.toLocaleString( ), 'updateBy':req.body.operator}};
+          dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount) {
+            if (err) throw err;
+            res.json(sportEnergyAccount);
+            db.close();
+          });
+        }
+        //Otherwise, stop deletion process
+        else {
+          res.json({Message: 'This account id doesn\'t exist.'});
           db.close();
+        }
       });
     });
   }
