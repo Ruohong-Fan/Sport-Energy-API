@@ -9,9 +9,7 @@ Pre-requisite to install the project:
 How to run the project:
 	
 	- Run mongod
-	
 	- Run mongo (default port 27017)
-	
 	- Run swagger project start
 
 To use swagger for the project:
