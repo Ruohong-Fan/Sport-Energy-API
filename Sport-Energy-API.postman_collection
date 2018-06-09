@@ -11,31 +11,23 @@
 			"name": "Read Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}{{version_no}}",
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?cardNumber=1122",
 					"host": [
 						"{{base_url_sport_energy_account}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "_id",
-							"value": "5b0015c29102b866b7d3191c",
+							"value": "5b003a5c53254e67a193f268",
 							"equals": true,
 							"description": "",
 							"disabled": true
 						},
 						{
 							"key": "cardNumber",
-							"value": "20180522",
+							"value": "1122",
 							"equals": true,
-							"description": "",
-							"disabled": true
-						},
-						{
-							"key": "hfkj",
-							"value": "fsjk",
-							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						}
 					],
 					"variable": []
@@ -64,7 +56,7 @@
 					"urlencoded": [
 						{
 							"key": "cardNumber",
-							"value": "111",
+							"value": "1122",
 							"description": "",
 							"type": "text"
 						},
@@ -84,14 +76,14 @@
 			"name": "Update Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b003a5c53254e67a193f260",
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b003a5c53254e67a193f268",
 					"host": [
 						"{{base_url_sport_energy_account}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "_id",
-							"value": "5b003a5c53254e67a193f260",
+							"value": "5b003a5c53254e67a193f268",
 							"equals": true,
 							"description": ""
 						}
@@ -143,14 +135,14 @@
 			"name": "Delete Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b00352e29e2d7675a3b48df",
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b003a5c53254e67a193f268",
 					"host": [
 						"{{base_url_sport_energy_account}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "_id",
-							"value": "5b00352e29e2d7675a3b48df",
+							"value": "5b003a5c53254e67a193f268",
 							"equals": true,
 							"description": ""
 						}
@@ -221,13 +213,19 @@
 					"urlencoded": [
 						{
 							"key": "cardNumber",
-							"value": "20180521",
+							"value": "1122",
 							"description": "",
 							"type": "text"
 						},
 						{
 							"key": "energyUpdate",
 							"value": "3000",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "operator",
+							"value": "RFAN",
 							"description": "",
 							"type": "text"
 						}
@@ -241,14 +239,14 @@
 			"name": "Delete Sport Energy Transaction",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?cardNumber=20180521",
+					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?_id=5b1b673540de2218da343402",
 					"host": [
 						"{{base_url_sport_energy_transaction}}{{version_no}}"
 					],
 					"query": [
 						{
-							"key": "cardNumber",
-							"value": "20180521",
+							"key": "_id",
+							"value": "5b1b673540de2218da343402",
 							"equals": true,
 							"description": ""
 						}
