@@ -19,7 +19,7 @@ produces:
   - application/json
 paths:
   /sportEnergyAccount/api/v1:
-    # binds a127 app logic to a route
+    # binds app logic to a route
     x-swagger-router-controller: sportEnergyAccountController
     get:
       description: Returns sport energy account information to the caller
@@ -82,7 +82,28 @@ paths:
       responses:
         200:
           description: Success
-  /sportLeader/swagger:
+  /sportEnergyATransaction/api/v1:
+    # binds app logic to a route
+    x-swagger-router-controller: sportEnergyTransactionController
+    get:
+      description: Returns sport energy account information to the caller
+      # used as the method name of the controller
+      operationId: read_sportEnergyTransaction
+      parameters:
+        - in: query
+          name: _id
+          type: string
+          description: The id of the sport energy account
+          required: false
+        - in: query
+          name: cardNumber
+          type: string
+          description: The card number of the sport energy account
+          required: false
+      responses:
+        200:
+          description: Success
+  /sportEnergy/swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:

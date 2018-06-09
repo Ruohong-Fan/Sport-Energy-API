@@ -16,9 +16,9 @@ exports.read_sportEnergyTransaction = function(req, res) {
       });
     });
   }
-  //Search by account id
+  //Search by transaction id
   else if (req.query._id) {
-    console.log('Read sport energy transaction');
+    console.log('Read sport energy transaction by transaction id');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -29,6 +29,25 @@ exports.read_sportEnergyTransaction = function(req, res) {
         db.close();
       });
     });
+  }
+  //Search by card number
+  else if (req.query.cardNumber) {
+    console.log('Read sport energy transaction by card number.');
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db('sportEnergyDB');
+      var whereStr = {'cardNumber':req.query.cardNumber};
+      dbo.collection('sportEnergyTransaction').find(whereStr).toArray(function(err, sportEnergyTransaction) {
+        if (err) throw err;
+        res.json(sportEnergyTransaction);
+        db.close();
+      });
+    });
+  }
+  //Other query params
+  else {
+    console.log('Read sport energy transaction failed.');
+    res.json({Message: 'Not right information to read sport energy transaction.'});
   }
 };
 
