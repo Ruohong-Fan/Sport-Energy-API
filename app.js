@@ -1,11 +1,10 @@
 //'use strict';
 
+// Load module dependencies.
 var SwaggerExpress = require('swagger-express-mw'),
   app = require('express')(),
   cors = require('cors'),
   bodyParser = require('body-parser');
-
-module.exports = app; // for testing
 
 var config = {
   appRoot: __dirname // required config
@@ -14,6 +13,7 @@ var config = {
 //enable all cors requests
 app.use(cors());
 
+// Create the application.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

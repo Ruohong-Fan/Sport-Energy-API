@@ -103,7 +103,6 @@ definitions:
   UpdateSportEnergyAccount:
     type: object
     required:
-    - cardNumber
     - operator
     properties:
       cardNumber:

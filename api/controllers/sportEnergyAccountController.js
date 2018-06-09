@@ -122,26 +122,33 @@ exports.delete_sportEnergyAccount = function(req, res) {
 };
 
 exports.update_sportEnergyAccount = function(req, res) {
-  //Update by account id
-  if (req.query._id) {
-    console.log('Update sport energy account by card number');
+  //Update balance by account id
+  if (req.query._id && req.body.operator) {
+    console.log('Update sport energy account by account id');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
       var whereStr = {'_id':ObjectID(req.query._id)};
       dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_old) {
         if (err) throw err;
-        //If the account id exists, update account
+        //If the account id exists, update account balance
         else if (sportEnergyAccount_old[0]) {
           var myDate = new Date();
-          var updateStr = {$set:{'cardNumber':req.body.cardNumber, 'energyBalance':Number(req.body.energyBalance), 'accountStatus':req.body.accountStatus, 'updateTime':myDate.toLocaleString( ), 'updateBy':req.body.operator}};
+          //only update when the value is not null
+          var objForUpdate = {};
+          if (req.body.cardNumber) objForUpdate.cardNumber = req.body.cardNumber;
+          if (req.body.energyBalance) objForUpdate.energyBalance = req.body.energyBalance;
+          if (req.body.accountStatus) objForUpdate.accountStatus = req.body.accountStatus;
+          objForUpdate.updateTime = myDate.toLocaleString( );
+          objForUpdate.updateBy = req.body.operator;
+          var updateStr = {$set:objForUpdate};
           dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount) {
             if (err) throw err;
             res.json(sportEnergyAccount);
             db.close();
           });
         }
-        //Otherwise, stop deletion process
+        //Otherwise, stop update process
         else {
           res.json({Message: 'This account id doesn\'t exist.'});
           db.close();
@@ -149,9 +156,8 @@ exports.update_sportEnergyAccount = function(req, res) {
       });
     });
   }
-  //Otherwise, no account will be deleted
+  //Otherwise, no account will be updated
   else {
-    console.log('Update sport energy account failed.');
-    res.json({Message: 'Please provide necessary information to update sport energy account.'})
+    res.json({Message: 'Update sport energy account failed. Please provide necessary information to update sport energy account.'})
   }
 };
