@@ -67,6 +67,9 @@ exports.create_sportEnergyTransaction = function(req, res) {
       });
     });
   }
+  else {
+    res.json({Message: 'Sport energy transaction creation failed.'})
+  }
 };
 
 exports.delete_sportEnergyTransaction = function(req, res) {
