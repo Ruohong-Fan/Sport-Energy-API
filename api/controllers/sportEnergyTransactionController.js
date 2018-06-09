@@ -92,21 +92,21 @@ exports.create_sportEnergyTransaction = function(req, res) {
 };
 
 exports.delete_sportEnergyTransaction = function(req, res) {
-  if (req.query.cardNumber) {
-    console.log('Delete sport energy transaction by card number');
+  if (req.query._id) {
+    console.log('Delete sport energy transaction by id');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
-      var whereStr = {'cardNumber':req.query.cardNumber};
+      var whereStr = {'_id':ObjectID(req.query._id)};
       dbo.collection('sportEnergyTransaction').deleteOne(whereStr, function(err, sportEnergyTransaction) {
         if (err) throw err;
-        res.json({Message: 'Delete sport energy account by card number successfully'});
+        res.json({Message: 'Delete sport energy account by id successfully'});
         db.close();
       });
     });
   }
   else {
-    res.json({Message: 'Please provide necessary information to remove sport leader.'})
+    res.json({Message: 'Please provide necessary information to delete energy transaction.'})
   }
 };
 

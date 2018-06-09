@@ -82,24 +82,49 @@ paths:
       responses:
         200:
           description: Success
-  /sportEnergyATransaction/api/v1:
+  /sportEnergyTransaction/api/v1:
     # binds app logic to a route
     x-swagger-router-controller: sportEnergyTransactionController
     get:
-      description: Returns sport energy account information to the caller
+      description: Returns sport energy transaction information to the caller
       # used as the method name of the controller
       operationId: read_sportEnergyTransaction
       parameters:
         - in: query
           name: _id
           type: string
-          description: The id of the sport energy account
+          description: The id of the sport energy transaction
           required: false
         - in: query
           name: cardNumber
           type: string
           description: The card number of the sport energy account
           required: false
+      responses:
+        200:
+          description: Success
+    post:
+      description: Add sport energy transaction
+      operationId: create_sportEnergyTransaction
+      parameters:
+        - in: body
+          name: body
+          description: Sport energy transaction object to be created
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSportEnergyTransaction'
+      responses:
+        200:
+          description: Success
+    delete:
+      description: Delete sport energy transaction
+      operationId: delete_sportEnergyTransaction
+      parameters:
+        - in: query
+          name: _id
+          type: string
+          description: The sport energy transaction to be deleted
+          required: true
       responses:
         200:
           description: Success
@@ -140,3 +165,21 @@ definitions:
         example: "RFAN27"
     xml:
       name: UpdateSportEnergyAccount
+  CreateSportEnergyTransaction:
+    type: object
+    required:
+    - cardNumber
+    - energyUpdate
+    - operator
+    properties:
+      cardNumber:
+        type: string
+        example: "2090537712048"
+      energyUpdate:
+        type: number
+        example: 300
+      operator:
+        type: string
+        example: "RFAN27"
+    xml:
+      name: CreateSportEnergyAccount
