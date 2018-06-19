@@ -12,7 +12,7 @@ services:
       - ./logs/mongodb:/var/log/mongodb
 
 
-  businessevent:
+  energypoint:
     image: membership/energypoint:latest
     build: .
     container_name: dkt_mb_enp
