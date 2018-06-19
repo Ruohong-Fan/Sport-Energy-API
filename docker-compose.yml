@@ -1,0 +1,27 @@
+version: '2.1'
+
+services:
+
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: dkt_mb_mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongodb:/data/db
+      - ./logs/mongodb:/var/log/mongodb
+
+
+  businessevent:
+    image: membership/energypoint:latest
+    build: .
+    container_name: dkt_mb_enp
+    ports:
+      - 8111:8111
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - MONGO_HOST=mongodb
+    volumes:
+      - ./logs/energypoint:/var/log/httpd
+    depends_on:
+      - mongodb

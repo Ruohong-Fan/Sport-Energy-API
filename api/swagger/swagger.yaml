@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Sport Energy API
 # during dev, should point to your local machine
-host: 127.0.0.1:10011
+host: 127.0.0.1:8111
 # basePath prefixes all resource paths 
 basePath: /
 # 

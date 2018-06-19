@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient,
   ObjectID = require('mongodb').ObjectID,
-  url = 'mongodb://localhost:27017/';
+  url = 'mongodb://'+ process.env.MONGO_HOST+':27017/';
 
 exports.read_sportEnergyTransaction = function(req, res) {
   //List all
