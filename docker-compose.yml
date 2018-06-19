@@ -19,7 +19,6 @@ services:
     ports:
       - 8111:8111
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - MONGO_HOST=mongodb
     volumes:
       - ./logs/energypoint:/var/log/httpd
