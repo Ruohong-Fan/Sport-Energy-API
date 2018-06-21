@@ -5,20 +5,22 @@ var MongoClient = require('mongodb').MongoClient,
 exports.read_sportEnergyAccount = function(req, res) {
   //If there is no query params, list all
   if (JSON.stringify(req.query) == '{}') {
-    console.log('Read all sport energy account.');
+    // console.log('Read all sport energy account.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
       dbo.collection('sportEnergyAccount').find({}).toArray(function(err, sportEnergyAccount) {
         if (err) throw err;
-        res.json(sportEnergyAccount);
+        // var message = new Object();
+        // message["Message"] = "Read all energy account."; 
+        res.send(sportEnergyAccount);
         db.close();
       });
     });
   }
   //Search by account id
   else if (req.query._id) {
-    console.log('Read sport energy account by account id.');
+    // console.log('Read sport energy account by account id.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -32,7 +34,7 @@ exports.read_sportEnergyAccount = function(req, res) {
   }
   //Search by card number
   else if (req.query.cardNumber) {
-    console.log('Read sport energy account by card number.');
+    // console.log('Read sport energy account by card number.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -46,8 +48,8 @@ exports.read_sportEnergyAccount = function(req, res) {
   }
   //Other query params
   else {
-    console.log('Read sport energy account failed.');
-    res.json({Message: 'Not right information to read sport energy account.'});
+    // console.log('Read sport energy account failed.');
+    res.send({Message: 'Not right information to read sport energy account.'});
   }
 };
 

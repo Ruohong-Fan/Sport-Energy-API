@@ -13,7 +13,8 @@
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
-    "should": "^7.1.0",
+    "mocha": "^5.2.0",
+    "should": "^7.1.1",
     "supertest": "^1.0.0"
   },
   "scripts": {

@@ -33,3 +33,5 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
   console.log('My RESTful API server started on: ' + port);
 });
+
+module.exports = app;
