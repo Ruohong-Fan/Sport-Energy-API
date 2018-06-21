@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient,
   ObjectID = require('mongodb').ObjectID,
-  url = 'mongodb://localhost:27017/';
+  url = 'mongodb://'+ process.env.MONGO_HOST+':27017/';
 
 exports.read_sportEnergyAccount = function(req, res) {
   //If there is no query params, list all

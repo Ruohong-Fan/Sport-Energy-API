@@ -28,7 +28,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   // install middleware
   swaggerExpress.register(app);
 
-  var port = process.env.PORT || 10011;
+  var port = process.env.PORT || 8111;
   app.listen(port);
 
   console.log('My RESTful API server started on: ' + port);
