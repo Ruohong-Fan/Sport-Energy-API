@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient,
   ObjectID = require('mongodb').ObjectID,
-  url = 'mongodb://'+ process.env.MONGO_HOST+':27017/';
+  url = 'mongodb://'+ (process.env.MONGO_HOST || 'localhost') + ':27017/';
 
 exports.read_sportEnergyAccount = function(req, res) {
   //If there is no query params, list all
@@ -56,7 +56,7 @@ exports.read_sportEnergyAccount = function(req, res) {
 exports.create_sportEnergyAccount = function(req, res) {
   //Create account only when card number and operator are both provided
   if (req.body.cardNumber && req.body.operator) {
-    console.log('Create sport energy account.');
+    // console.log('Create sport energy account.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -85,13 +85,13 @@ exports.create_sportEnergyAccount = function(req, res) {
   }
   //Otherwise, no account will be created
   else {
-    console.log('Create sport energy account failed.');
+    // console.log('Create sport energy account failed.');
     res.json({Message: 'Not sufficient information to create sport energy account.'});
   }
 };
 
 exports.delete_sportEnergyAccount = function(req, res) {
-  //Delete only by account id
+  //Delete by account id
   if (req.query._id) {
     console.log('Delete sport energy account by account id.');
     MongoClient.connect(url, function(err, db) {
@@ -116,9 +116,34 @@ exports.delete_sportEnergyAccount = function(req, res) {
       });
     });
   }
+  //Delete by card number
+  else if (req.query.cardNumber) {
+    // console.log('Delete sport energy account by card number.');
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db('sportEnergyDB');
+      var whereStr = {'cardNumber':req.query.cardNumber};
+      dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_exist) {
+        if (err) throw err;
+        //If the card number exists, delete account
+        else if (sportEnergyAccount_exist[0]) {
+          dbo.collection('sportEnergyAccount').deleteOne(whereStr, function(err, sportEnergyAccount) {
+            if (err) throw err;
+            res.json(sportEnergyAccount);
+            db.close();
+          });
+        }
+        //Otherwise, stop deletion process
+        else {
+          res.json({Message: 'This card number doesn\'t have linked energy account.'});
+          db.close();
+        }
+      });
+    });
+  }
   //Otherwise, no account will be deleted
   else {
-    console.log('Delete sport energy account failed.');
+    // console.log('Delete sport energy account failed.');
     res.json({Message: 'Please provide necessary information to remove sport energy account.'})
   }
 };
