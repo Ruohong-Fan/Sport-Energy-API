@@ -1,0 +1,221 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Sport-Energy-API",
+		"_postman_id": "3476330a-9216-ed0b-acf3-7bb40586e65f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Read Sport Energy Account",
+			"request": {
+				"url": {
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}",
+					"host": [
+						"{{base_url_sport_energy_account}}{{version_no}}"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "5b01364c9799756b73a46381",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						},
+						{
+							"key": "cardNumber",
+							"value": "1111",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sport Energy Account",
+			"request": {
+				"url": "{{base_url_sport_energy_account}}{{version_no}}",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cardNumber\": \"2090537712048\", \n\t\"operator\": \"RFAN27\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Sport Energy Account",
+			"request": {
+				"url": {
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b003a5c53254e67a193f268",
+					"host": [
+						"{{base_url_sport_energy_account}}{{version_no}}"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "5b003a5c53254e67a193f268",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"energyBalance\": \"1000\", \n\t\"operator\": \"RFAN27\",\n\t\"cardNumber\": \"111\",\n\t\"accountStatus\": \"disabled\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sport Energy Account",
+			"request": {
+				"url": {
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?cardNumber=2090537712048",
+					"host": [
+						"{{base_url_sport_energy_account}}{{version_no}}"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "5b2c45c2794bb24a7f47d90e",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						},
+						{
+							"key": "cardNumber",
+							"value": "2090537712048",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Read Sport Energy Transaction",
+			"request": {
+				"url": {
+					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?cardNumber=1122",
+					"host": [
+						"{{base_url_sport_energy_transaction}}{{version_no}}"
+					],
+					"query": [
+						{
+							"key": "cardNumber",
+							"value": "1122",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "_id",
+							"value": "5b0138e7fc61e86b93f591df",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sport Energy Transaction",
+			"request": {
+				"url": "{{base_url_sport_energy_transaction}}{{version_no}}",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cardNumber\": \"2090537712048\", \n\t\"energyUpdate\": 3000,\n\t\"operator\": \"RFAN27\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sport Energy Transaction",
+			"request": {
+				"url": {
+					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?_id=5b1b673540de2218da343402",
+					"host": [
+						"{{base_url_sport_energy_transaction}}{{version_no}}"
+					],
+					"query": [
+						{
+							"key": "_id",
+							"value": "5b1b673540de2218da343402",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
