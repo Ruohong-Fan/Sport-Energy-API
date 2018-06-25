@@ -6,6 +6,9 @@ Pre-requisite to install the project:
 	
 	- Install MongoDB Community Edition (https://docs.mongodb.com/manual/administration/install-community/)
 
+How to test the project:
+	- Run swagger project test
+
 How to run the project:
 	
 	- Run mongod

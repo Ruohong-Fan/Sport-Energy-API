@@ -1,24 +1,24 @@
 var MongoClient = require('mongodb').MongoClient,
   ObjectID = require('mongodb').ObjectID,
-  url = 'mongodb://'+ process.env.MONGO_HOST+':27017/';
+  url = 'mongodb://'+ (process.env.MONGO_HOST || 'localhost') +':27017/';
 
 exports.read_sportEnergyTransaction = function(req, res) {
-  //List all
-  if (JSON.stringify(req.query) == '{}') {
-    console.log('Read all sport energy transactions');
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db('sportEnergyDB');
-      dbo.collection('sportEnergyTransaction').find({}).toArray(function(err, sportEnergyTransaction) {
-        if (err) throw err;
-        res.json(sportEnergyTransaction);
-        db.close();
-      });
-    });
-  }
+  // //List all
+  // if (JSON.stringify(req.query) == '{}') {
+  //   console.log('Read all sport energy transactions');
+  //   MongoClient.connect(url, function(err, db) {
+  //     if (err) throw err;
+  //     var dbo = db.db('sportEnergyDB');
+  //     dbo.collection('sportEnergyTransaction').find({}).toArray(function(err, sportEnergyTransaction) {
+  //       if (err) throw err;
+  //       res.json(sportEnergyTransaction);
+  //       db.close();
+  //     });
+  //   });
+  // }
   //Search by transaction id
-  else if (req.query._id) {
-    console.log('Read sport energy transaction by transaction id');
+  if (req.query._id) {
+    // console.log('Read sport energy transaction by transaction id');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -32,7 +32,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
   }
   //Search by card number
   else if (req.query.cardNumber) {
-    console.log('Read sport energy transaction by card number.');
+    // console.log('Read sport energy transaction by card number.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -46,14 +46,13 @@ exports.read_sportEnergyTransaction = function(req, res) {
   }
   //Other query params
   else {
-    console.log('Read sport energy transaction failed.');
+    // console.log('Read sport energy transaction failed.');
     res.json({Message: 'Not right information to read sport energy transaction.'});
   }
 };
 
 exports.create_sportEnergyTransaction = function(req, res) {
   if (req.body.cardNumber && req.body.energyUpdate && req.body.operator) {
-    console.log('Create sport energy transaction');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -67,7 +66,6 @@ exports.create_sportEnergyTransaction = function(req, res) {
             'updateTime':myDate.toLocaleString( ), 'updateBy':req.body.operator}};
           dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount_new) {
             if (err) throw err;
-            console.log(sportEnergyAccount_new);
             db.close();
           });
           // create sport energy transaction
@@ -87,7 +85,7 @@ exports.create_sportEnergyTransaction = function(req, res) {
     });
   }
   else {
-    res.json({Message: 'Sport energy transaction creation failed.'})
+    res.json({Message: 'Not sufficient information to create sport energy transaction.'})
   }
 };
 

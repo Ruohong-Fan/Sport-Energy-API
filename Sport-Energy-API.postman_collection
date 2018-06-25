@@ -11,23 +11,24 @@
 			"name": "Read Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}{{version_no}}?cardNumber=1122",
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}",
 					"host": [
 						"{{base_url_sport_energy_account}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "_id",
-							"value": "5b003a5c53254e67a193f268",
+							"value": "5b01364c9799756b73a46381",
 							"equals": true,
 							"description": "",
 							"disabled": true
 						},
 						{
 							"key": "cardNumber",
-							"value": "1122",
+							"value": "1111",
 							"equals": true,
-							"description": ""
+							"description": "",
+							"disabled": true
 						}
 					],
 					"variable": []
@@ -47,26 +48,13 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"description": ""
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "cardNumber",
-							"value": "1122",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "operator",
-							"value": "RFAN27",
-							"description": "",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "{\n\t\"cardNumber\": \"2090537712048\", \n\t\"operator\": \"RFAN27\"\n}"
 				},
 				"description": ""
 			},
@@ -94,38 +82,13 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"description": ""
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "energyBalance",
-							"value": "1000",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "operator",
-							"value": "RFAN28",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "cardNumber",
-							"value": "111",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "accountStatus",
-							"value": "disabled",
-							"description": "",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "{\n\t\"energyBalance\": \"1000\", \n\t\"operator\": \"RFAN27\",\n\t\"cardNumber\": \"111\",\n\t\"accountStatus\": \"disabled\"\n}"
 				},
 				"description": ""
 			},
@@ -135,14 +98,21 @@
 			"name": "Delete Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}{{version_no}}?_id=5b003a5c53254e67a193f268",
+					"raw": "{{base_url_sport_energy_account}}{{version_no}}?cardNumber=2090537712048",
 					"host": [
 						"{{base_url_sport_energy_account}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "_id",
-							"value": "5b003a5c53254e67a193f268",
+							"value": "5b2c45c2794bb24a7f47d90e",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						},
+						{
+							"key": "cardNumber",
+							"value": "2090537712048",
 							"equals": true,
 							"description": ""
 						}
@@ -153,7 +123,7 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"description": "",
 						"disabled": true
 					}
@@ -167,17 +137,16 @@
 			"name": "Read Sport Energy Transaction",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}",
+					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?cardNumber=1122",
 					"host": [
 						"{{base_url_sport_energy_transaction}}{{version_no}}"
 					],
 					"query": [
 						{
 							"key": "cardNumber",
-							"value": "111",
+							"value": "1122",
 							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						},
 						{
 							"key": "_id",
@@ -204,32 +173,13 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"description": ""
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "cardNumber",
-							"value": "1122",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "energyUpdate",
-							"value": "3000",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "operator",
-							"value": "RFAN",
-							"description": "",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "{\n\t\"cardNumber\": \"2090537712048\", \n\t\"energyUpdate\": 3000,\n\t\"operator\": \"RFAN27\"\n}"
 				},
 				"description": ""
 			},

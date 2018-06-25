@@ -5,14 +5,11 @@ var MongoClient = require('mongodb').MongoClient,
 exports.read_sportEnergyAccount = function(req, res) {
   //If there is no query params, list all
   if (JSON.stringify(req.query) == '{}') {
-    // console.log('Read all sport energy account.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
       dbo.collection('sportEnergyAccount').find({}).toArray(function(err, sportEnergyAccount) {
         if (err) throw err;
-        // var message = new Object();
-        // message["Message"] = "Read all energy account."; 
         res.send(sportEnergyAccount);
         db.close();
       });
@@ -20,7 +17,6 @@ exports.read_sportEnergyAccount = function(req, res) {
   }
   //Search by account id
   else if (req.query._id) {
-    // console.log('Read sport energy account by account id.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -34,7 +30,6 @@ exports.read_sportEnergyAccount = function(req, res) {
   }
   //Search by card number
   else if (req.query.cardNumber) {
-    // console.log('Read sport energy account by card number.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -48,7 +43,6 @@ exports.read_sportEnergyAccount = function(req, res) {
   }
   //Other query params
   else {
-    // console.log('Read sport energy account failed.');
     res.send({Message: 'Not right information to read sport energy account.'});
   }
 };
@@ -56,7 +50,6 @@ exports.read_sportEnergyAccount = function(req, res) {
 exports.create_sportEnergyAccount = function(req, res) {
   //Create account only when card number and operator are both provided
   if (req.body.cardNumber && req.body.operator) {
-    // console.log('Create sport energy account.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -85,7 +78,6 @@ exports.create_sportEnergyAccount = function(req, res) {
   }
   //Otherwise, no account will be created
   else {
-    // console.log('Create sport energy account failed.');
     res.json({Message: 'Not sufficient information to create sport energy account.'});
   }
 };
@@ -93,7 +85,6 @@ exports.create_sportEnergyAccount = function(req, res) {
 exports.delete_sportEnergyAccount = function(req, res) {
   //Delete by account id
   if (req.query._id) {
-    console.log('Delete sport energy account by account id.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -118,7 +109,6 @@ exports.delete_sportEnergyAccount = function(req, res) {
   }
   //Delete by card number
   else if (req.query.cardNumber) {
-    // console.log('Delete sport energy account by card number.');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
@@ -151,7 +141,6 @@ exports.delete_sportEnergyAccount = function(req, res) {
 exports.update_sportEnergyAccount = function(req, res) {
   //Update balance by account id
   if (req.query._id && req.body.operator) {
-    console.log('Update sport energy account by account id');
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db('sportEnergyDB');
