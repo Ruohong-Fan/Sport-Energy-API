@@ -18,7 +18,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /sportEnergyAccount/api/v1:
+  /api/v1/sportEnergyAccount:
     # binds app logic to a route
     x-swagger-router-controller: sportEnergyAccountController
     get:
@@ -82,7 +82,7 @@ paths:
       responses:
         200:
           description: Success
-  /sportEnergyTransaction/api/v1:
+  /api/v1/sportEnergyTransaction:
     # binds app logic to a route
     x-swagger-router-controller: sportEnergyTransactionController
     get:

@@ -3,14 +3,14 @@ module.exports = function(app) {
   var sportLeaderTransaction = require('../controllers/sportEnergyTransactionController');
 
   // sportLeaderAccount Routes
-  app.route('/sportEnergyAccount/api/v1/')
+  app.route('/api/v1/sportEnergyAccount')
     .get(sportLeaderAccount.read_sportEnergyAccount)
     .post(sportLeaderAccount.create_sportEnergyAccount)
     .delete(sportLeaderAccount.delete_sportEnergyAccount)
     .put(sportLeaderAccount.update_sportEnergyAccount);
 
   // sportLeaderTransaction Routes
-  app.route('/sportEnergyTransaction/api/v1/')
+  app.route('/api/v1/sportEnergyTransaction/')
     .get(sportLeaderTransaction.read_sportEnergyTransaction)
     .post(sportLeaderTransaction.create_sportEnergyTransaction)
     .delete(sportLeaderTransaction.delete_sportEnergyTransaction)
