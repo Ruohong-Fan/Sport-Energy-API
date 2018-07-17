@@ -5,9 +5,9 @@ module.exports = function(app) {
   // sportLeaderAccount Routes
   app.route('/api/v1/sportEnergyAccount')
     .get(sportLeaderAccount.read_sportEnergyAccount)
-    // .post(sportLeaderAccount.create_sportEnergyAccount)
-    // .delete(sportLeaderAccount.delete_sportEnergyAccount)
-    // .put(sportLeaderAccount.update_sportEnergyAccount);
+    .post(sportLeaderAccount.create_sportEnergyAccount)
+    .delete(sportLeaderAccount.delete_sportEnergyAccount)
+    .put(sportLeaderAccount.update_sportEnergyAccount);
 
   // sportLeaderTransaction Routes
   app.route('/api/v1/sportEnergyTransaction/')

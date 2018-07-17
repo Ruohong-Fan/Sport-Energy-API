@@ -27,7 +27,7 @@ paths:
       operationId: read_sportEnergyAccount
       parameters:
         - in: query
-          name: _id
+          name: point_account_id
           type: string
           description: The id of the sport energy account
           required: false
@@ -52,14 +52,16 @@ paths:
       responses:
         200:
           description: Success
+          schema:
+            $ref: '#/definitions/GetSportEnergyAccount'
     put:
       description: Update sport energy account information
       operationId: update_sportEnergyAccount
       parameters:
         - in: query
-          name: _id
+          name: point_account_id
           type: string
-          description: The id of the sport energy account
+          description: The point account id of the sport energy account
           required: true
         - in: body
           name: body
@@ -75,7 +77,7 @@ paths:
       operationId: delete_sportEnergyAccount
       parameters:
         - in: query
-          name: _id
+          name: point_account_id
           type: string
           description: The sport energy account to be deleted
           required: true
@@ -132,6 +134,17 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
+  GetSportEnergyAccount:
+    type: object
+    properties:
+      cardNumber:
+        type: string
+        example: "2090537712048"
+      operator:
+        type: string
+        example: "RFAN27"
+    xml:
+      name: GetSportEnergyAccount
   CreateSportEnergyAccount:
     type: object
     required:
@@ -146,6 +159,17 @@ definitions:
         example: "RFAN27"
     xml:
       name: CreateSportEnergyAccount
+  DeleteSportEnergyAccount:
+    type: object
+    properties:
+      cardNumber:
+        type: string
+        example: "2090537712048"
+      operator:
+        type: string
+        example: "RFAN27"
+    xml:
+      name: DeleteSportEnergyAccount
   UpdateSportEnergyAccount:
     type: object
     required:
