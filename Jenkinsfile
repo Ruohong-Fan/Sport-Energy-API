@@ -15,6 +15,12 @@ pipeline{
             steps{
                 echo 'checkout code';
                 checkout scm
+                if (env.BRANCH_NAME != 'master') {
+                        image_version = "SNAPSHOT-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                        image_version = image_version.replace('/','-')
+                } else {
+                        image_version = "${env.BUILD_NUMBER}"
+                }
             }
         }
 
