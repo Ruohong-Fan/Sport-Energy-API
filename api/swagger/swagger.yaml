@@ -93,12 +93,12 @@ paths:
       operationId: read_sportEnergyTransaction
       parameters:
         - in: query
-          name: _id
-          type: string
+          name: pointAccountId
+          type: number
           description: The id of the sport energy transaction
           required: false
         - in: query
-          name: cardNumber
+          name: pointTransactionId
           type: string
           description: The card number of the sport energy account
           required: false
@@ -118,18 +118,8 @@ paths:
       responses:
         200:
           description: Success
-    delete:
-      description: Delete sport energy transaction
-      operationId: delete_sportEnergyTransaction
-      parameters:
-        - in: query
-          name: _id
-          type: string
-          description: The sport energy transaction to be deleted
-          required: true
-      responses:
-        200:
-          description: Success
+          schema:
+            $ref: '#/definitions/GetSportEnergyTransaction'
   /sportEnergy/swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -189,21 +179,42 @@ definitions:
         example: "RFAN27"
     xml:
       name: UpdateSportEnergyAccount
+  GetSportEnergyTransaction:
+    type: object
+    properties:
+      cardNumber:
+        type: string
+        example: "2090537712048"
+      pointChange:
+        type: number
+        example: 300
+      eventId:
+        type: number
+        example: 1
+      operator:
+        type: string
+        example: "RFAN27"
+    xml:
+      name: GetSportEnergyTransaction
   CreateSportEnergyTransaction:
     type: object
     required:
     - cardNumber
-    - energyUpdate
+    - pointChange
+    - eventId
     - operator
     properties:
       cardNumber:
         type: string
         example: "2090537712048"
-      energyUpdate:
+      pointChange:
         type: number
         example: 300
+      eventId:
+        type: number
+        example: 1
       operator:
         type: string
         example: "RFAN27"
     xml:
-      name: CreateSportEnergyAccount
+      name: CreateSportEnergyTransaction

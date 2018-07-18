@@ -52,6 +52,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
                 "update_time": data1[0].update_time,
                 "expire_time": data1[0].expire_time,
                 "external_id": data1[0].external_id,
+                "card_number": data1[0].card_number,
                 transaction_detail
               },
             ]
@@ -75,7 +76,6 @@ exports.read_sportEnergyTransaction = function(req, res) {
           data1 = sportEnergyTransaction.rows;
           var i = 0;
           var transaction_detail = new Array(data1.length);
-          console.log(transaction_detail);
           while (i<data1.length) {
             transaction_detail[i] = {
               "item_code": data1[i].item_code,
@@ -102,6 +102,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
                 "update_time": data1[0].update_time,
                 "expire_time": data1[0].expire_time,
                 "external_id": data1[0].external_id,
+                "card_number": data1[0].card_number,
                 transaction_detail
               },
             ]
@@ -121,39 +122,66 @@ exports.read_sportEnergyTransaction = function(req, res) {
 };
 
 exports.create_sportEnergyTransaction = function(req, res) {
-  if (req.body.cardNumber && req.body.energyUpdate && req.body.operator) {
-    // MongoClient.connect(url, function(err, db) {
-    //   if (err) throw err;
-    //   var dbo = db.db('sportEnergyDB');
-    //   var whereStr = {'cardNumber':req.body.cardNumber};
-    //   dbo.collection('sportEnergyAccount').find(whereStr).toArray(function(err, sportEnergyAccount_old) {
-    //     if (err) throw err;
-    //     else if (sportEnergyAccount_old[0]) {
-    //       var myDate = new Date();
-    //       // find & update current sport energy balance
-    //       var updateStr = {$set:{'energyBalance':Number(req.body.energyUpdate)+Number(sportEnergyAccount_old[0].energyBalance), 
-    //         'updateTime':myDate.toLocaleString( ), 'updateBy':req.body.operator}};
-    //       dbo.collection('sportEnergyAccount').updateOne(whereStr, updateStr, function(err, sportEnergyAccount_new) {
-    //         if (err) throw err;
-    //         db.close();
-    //       });
-    //       // create sport energy transaction
-    //       var myobj = {'cardNumber':req.body.cardNumber, 'energyUpdate':Number(req.body.energyUpdate), 
-    //         'sportEnergyAccount_id':ObjectID(sportEnergyAccount_old[0]._id), 'createTime':myDate.toLocaleString( ), 
-    //         'updateTime':myDate.toLocaleString( ), 'createBy':req.body.operator, 'updateBy':req.body.operator};
-    //       dbo.collection('sportEnergyTransaction').insert(myobj, function(err, sportEnergyTransaction) {
-    //         if (err) throw err;
-    //         res.json(sportEnergyTransaction);
-    //       });
-    //     }
-    //     else {
-    //       res.json({Message: 'The card number doesn\'t exist!'})
-    //       db.close();
-    //     }
-    //   });
-    // });
+  if (req.body.cardNumber && req.body.pointChange && req.body.eventId && req.body.operator && req.body.expireTime && req.body.externalId && req.body.transactionDetail) {
+    pool.connect((err, client, done) => {
+      const shouldAbort = (err) => {
+        if (err) {
+          console.error('Error in transaction', err.stack)
+          client.query('ROLLBACK', (err) => {
+            if (err) {
+              console.error('Error rolling back client', err.stack)
+            }
+            // release the client back to the pool
+            done()
+          })
+        }
+        return !!err
+      }
+      client.query('select point_account_id, point_balance from sport_energy_account where card_number = $1;', [req.body.cardNumber], (err, res1) => {
+        if (shouldAbort(err)) return;
+        else if (res1.rows.length > 0) {
+          const text1 = 'insert into sport_energy_transaction VALUES (DEFAULT, $1, $2, null, $3, $4, now(), null, null, $5, $6, $7) RETURNING point_transaction_id;'
+          const values1 = [res1.rows[0].point_account_id, req.body.pointChange, req.body.eventId, req.body.operator, req.body.expireTime, req.body.externalId, req.body.cardNumber]
+          client.query(text1, values1, (err, res2) => {
+            if (shouldAbort(err)) return
+            var i = 0;
+            const text2 = 'insert into sport_energy_transaction_detail VALUES ($1, $2, $3, $4, $5, null);'
+            while (i < req.body.transactionDetail.length) {
+              values2 = [res2.rows[0].point_transaction_id, req.body.transactionDetail[i].itemCode, req.body.transactionDetail[i].lineNumber, req.body.transactionDetail[i].quantity, req.body.transactionDetail[i].pointChangeItem];
+              client.query(text2, values2, (err) => {
+                if (err) {
+                  console.error('Error committing transaction', err.stack)
+                }
+                done()
+              })
+              i++;
+            }
+            client.query('update sport_energy_account set point_balance = $1 where card_number = $2;', [res1.rows[0].point_balance+req.body.pointChange, req.body.cardNumber], (err) => {
+              if (shouldAbort(err)) return;
+              done()
+            })
+            res.json({
+              "code": "200",
+              "message": "Transaction created successfully.",
+              "entity": ""
+            })
+            done()
+          })
+        }
+        else {
+          res.json({
+            "code": "400",
+            "message": "The card number doesn't exist.",
+            "entity": ""
+          })
+        }
+      })
+    });
   }
   else {
-    res.json({Message: 'Not sufficient information to create sport energy transaction.'})
+    res.json({
+      "code": "400",
+      "message": "Information not sufficient, no transaction created.",
+      "entity": ""})
   }
 };

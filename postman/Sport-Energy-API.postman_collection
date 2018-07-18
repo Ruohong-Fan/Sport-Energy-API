@@ -11,7 +11,7 @@
 			"name": "Read Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}?sf=fs",
+					"raw": "{{base_url_sport_energy_account}}",
 					"host": [
 						"{{base_url_sport_energy_account}}"
 					],
@@ -34,7 +34,8 @@
 							"key": "sf",
 							"value": "fs",
 							"equals": true,
-							"description": ""
+							"description": "",
+							"disabled": true
 						}
 					],
 					"variable": []
@@ -144,7 +145,7 @@
 			"name": "Read Sport Energy Transaction",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}?pointTransactionId=2",
+					"raw": "{{base_url_sport_energy_transaction}}?pointAccountId=18",
 					"host": [
 						"{{base_url_sport_energy_transaction}}"
 					],
@@ -153,14 +154,14 @@
 							"key": "pointAccountId",
 							"value": "18",
 							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						},
 						{
 							"key": "pointTransactionId",
 							"value": "2",
 							"equals": true,
-							"description": ""
+							"description": "",
+							"disabled": true
 						}
 					],
 					"variable": []
@@ -173,9 +174,9 @@
 			"response": []
 		},
 		{
-			"name": "Create Sport Energy Transaction (not ready)",
+			"name": "Create Sport Energy Transaction",
 			"request": {
-				"url": "{{base_url_sport_energy_transaction}}{{version_no}}",
+				"url": "{{base_url_sport_energy_transaction}}",
 				"method": "POST",
 				"header": [
 					{
@@ -186,7 +187,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"cardNumber\": \"2090537712048\", \n\t\"energyUpdate\": -13000,\n\t\"operator\": \"RFAN27\"\n}"
+					"raw": "{\n\t\"cardNumber\": \"2090537712050\", \n\t\"pointChange\": 3000,\n    \"pointStatus\": null,\n\t\"eventId\": 438293,\n    \"expireTime\": \"2019-12-30T16:00:00.000Z\",\n    \"externalId\": \"38501924370\",\n\t\"operator\": \"RFAN27\",\n\t\"transactionDetail\": [\n        {\n            \"itemCode\": \"834750\",\n            \"lineNumber\": 1,\n            \"quantity\": 1,\n            \"pointChangeItem\": 1200\n        },\n        {\n            \"itemCode\": \"834750\",\n            \"lineNumber\": 2,\n            \"quantity\": 1,\n            \"pointChangeItem\": 1200\n        },\n        {\n            \"itemCode\": \"8350\",\n            \"lineNumber\": 3,\n            \"quantity\": 10,\n            \"pointChangeItem\": 600\n        }\n    ]\n}"
 				},
 				"description": ""
 			},
