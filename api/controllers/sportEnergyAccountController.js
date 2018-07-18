@@ -80,13 +80,13 @@ exports.read_sportEnergyAccount = function(req, res) {
       })
     });
   }
+
   //Other query params
   else {
     res.json({
       "code": "400",
       "message": "No sufficient information, data not found.",
-      "entity": "",
-      data
+      "entity": ""
     });
   }
 };
@@ -120,8 +120,7 @@ exports.create_sportEnergyAccount = function(req, res) {
     res.json({
       "code": "400",
       "message": "No sufficient information, data not found.",
-      "entity": "",
-      data
+      "entity": ""
     });
   }
 };
@@ -177,7 +176,11 @@ exports.delete_sportEnergyAccount = function(req, res) {
 
   //Otherwise, no account will be deleted
   else {
-    res.json({Message: 'Please provide necessary information to remove sport energy account.'})
+    res.json({
+      "code": "400",
+      "message": "No sufficient information, data not found.",
+      "entity": ""
+    });
   }
 };
 
@@ -222,8 +225,7 @@ exports.update_sportEnergyAccount = function(req, res) {
     res.json({
       "code": "400",
       "message": "No sufficient information, data not found.",
-      "entity": "",
-      data
+      "entity": ""
     });
   }
 };

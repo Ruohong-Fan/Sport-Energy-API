@@ -11,7 +11,7 @@
 			"name": "Read Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}",
+					"raw": "{{base_url_sport_energy_account}}?sf=fs",
 					"host": [
 						"{{base_url_sport_energy_account}}"
 					],
@@ -29,6 +29,12 @@
 							"equals": true,
 							"description": "",
 							"disabled": true
+						},
+						{
+							"key": "sf",
+							"value": "fs",
+							"equals": true,
+							"description": ""
 						}
 					],
 					"variable": []
@@ -64,7 +70,7 @@
 			"name": "Update Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}?pointAccountId=17",
+					"raw": "{{base_url_sport_energy_account}}",
 					"host": [
 						"{{base_url_sport_energy_account}}"
 					],
@@ -73,7 +79,8 @@
 							"key": "pointAccountId",
 							"value": "17",
 							"equals": true,
-							"description": ""
+							"description": "",
+							"disabled": true
 						}
 					],
 					"variable": []
@@ -137,23 +144,23 @@
 			"name": "Read Sport Energy Transaction",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}{{version_no}}?cardNumber=1122",
+					"raw": "{{base_url_sport_energy_transaction}}?pointTransactionId=2",
 					"host": [
-						"{{base_url_sport_energy_transaction}}{{version_no}}"
+						"{{base_url_sport_energy_transaction}}"
 					],
 					"query": [
 						{
-							"key": "cardNumber",
-							"value": "1122",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "_id",
-							"value": "5b0138e7fc61e86b93f591df",
+							"key": "pointAccountId",
+							"value": "18",
 							"equals": true,
 							"description": "",
 							"disabled": true
+						},
+						{
+							"key": "pointTransactionId",
+							"value": "2",
+							"equals": true,
+							"description": ""
 						}
 					],
 					"variable": []
@@ -186,7 +193,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Sport Energy Transaction",
+			"name": "Delete Sport Energy Transaction (not ready)",
 			"request": {
 				"url": {
 					"raw": "{{base_url_sport_energy_transaction}}?point_account_id=2",

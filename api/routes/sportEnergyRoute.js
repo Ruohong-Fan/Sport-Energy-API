@@ -11,8 +11,6 @@ module.exports = function(app) {
 
   // sportLeaderTransaction Routes
   app.route('/api/v1/sportEnergyTransaction/')
-    .get(sportLeaderTransaction.read_sportEnergyTransaction)
-    .post(sportLeaderTransaction.create_sportEnergyTransaction)
-    .delete(sportLeaderTransaction.delete_sportEnergyTransaction)
-    .put(sportLeaderTransaction.update_sportEnergyTransaction);
+    .get(sportLeaderTransaction.read_sportEnergyTransaction);
+    // .post(sportLeaderTransaction.create_sportEnergyTransaction);
 };
