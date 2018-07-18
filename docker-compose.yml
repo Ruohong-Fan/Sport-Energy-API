@@ -1,26 +1,12 @@
-version: '2.1'
-
+version: '2'
 services:
-
-  mongodb:
-    image: bitnami/mongodb:latest
-    container_name: dkt_mb_mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - ./data/mongodb:/data/db
-      - ./logs/mongodb:/var/log/mongodb
-
-
   energypoint:
     image: membership/energypoint:latest
     build: .
     container_name: dkt_mb_enp
-    ports:
-      - 8111:8111
     environment:
-      - MONGO_HOST=mongodb
-    volumes:
-      - ./logs/energypoint:/var/log/httpd
-    depends_on:
-      - mongodb
+      - PGHOST=rtdkv1pgs01.c0x6zghvypsc.rds.cn-north-1.amazonaws.com.cn
+      - PGUSER=membership
+      - PGDATABASE=db_energy_point
+      - PGPASSWORD=mypassword
+      - PGPORT=5432
