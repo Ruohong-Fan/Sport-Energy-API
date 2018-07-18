@@ -24,7 +24,7 @@ pipeline{
                 withMaven(jdk: 'java1.8',
                           maven: 'maven3.5') {
                     // Run unit test
-                    sh "swagger project test"
+                    // sh "swagger project test"
                 }
             }
         }
