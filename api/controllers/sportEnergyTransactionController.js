@@ -23,11 +23,38 @@ exports.read_sportEnergyTransaction = function(req, res) {
         } 
         else {
           data1 = sportEnergyTransaction.rows;
+          var i = 0;
+          var transaction_detail = new Array(data1.length);
+          console.log(transaction_detail);
+          while (i<data1.length) {
+            transaction_detail[i] = {
+              "item_code": data1[i].item_code,
+              "line_number": data1[i].line_number,
+              "quantity": data1[i].quantity,
+              "point_change_item": data1[i].point_change_item
+            };
+            i++;
+          }
           res.json({
             "code": "200",
             "message": "Success",
             "entity": "",
-            data1
+            "data": [
+              {
+                "point_transaction_id": data1[0].point_transaction_id,
+                "point_account_id": data1[0].point_account_id,
+                "point_change": data1[0].point_change,
+                "point_status": data1[0].point_status,
+                "event_id": data1[0].event_id,
+                "create_by": data1[0].create_by,
+                "create_time": data1[0].create_time,
+                "update_by": data1[0].update_by,
+                "update_time": data1[0].update_time,
+                "expire_time": data1[0].expire_time,
+                "external_id": data1[0].external_id,
+                transaction_detail
+              },
+            ]
           })
         }
       })
@@ -45,12 +72,39 @@ exports.read_sportEnergyTransaction = function(req, res) {
           console.log(err.stack)
         } 
         else {
-          data = sportEnergyTransaction.rows;
+          data1 = sportEnergyTransaction.rows;
+          var i = 0;
+          var transaction_detail = new Array(data1.length);
+          console.log(transaction_detail);
+          while (i<data1.length) {
+            transaction_detail[i] = {
+              "item_code": data1[i].item_code,
+              "line_number": data1[i].line_number,
+              "quantity": data1[i].quantity,
+              "point_change_item": data1[i].point_change_item
+            };
+            i++;
+          }
           res.json({
             "code": "200",
             "message": "Success",
             "entity": "",
-            data
+            "data": [
+              {
+                "point_transaction_id": data1[0].point_transaction_id,
+                "point_account_id": data1[0].point_account_id,
+                "point_change": data1[0].point_change,
+                "point_status": data1[0].point_status,
+                "event_id": data1[0].event_id,
+                "create_by": data1[0].create_by,
+                "create_time": data1[0].create_time,
+                "update_by": data1[0].update_by,
+                "update_time": data1[0].update_time,
+                "expire_time": data1[0].expire_time,
+                "external_id": data1[0].external_id,
+                transaction_detail
+              },
+            ]
           })
         }
       })
