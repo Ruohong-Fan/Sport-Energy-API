@@ -10,7 +10,7 @@ COPY . ./
 
 #RUN npm install
 
-EXPOSE 8111
+EXPOSE 8080
 
 ENTRYPOINT ["npm","run"]
 
