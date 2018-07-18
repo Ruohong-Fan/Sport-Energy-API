@@ -173,7 +173,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Sport Energy Transaction",
+			"name": "Create Sport Energy Transaction (not ready)",
 			"request": {
 				"url": "{{base_url_sport_energy_transaction}}{{version_no}}",
 				"method": "POST",
