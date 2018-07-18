@@ -7,7 +7,7 @@ def image_name = "membership\\/energypoint"
 def image_version = ''
 
 pipeline{
-    agent any
+    agent ansible
     stages{
         stage('checkout code'){
             steps{
