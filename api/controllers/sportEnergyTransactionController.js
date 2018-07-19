@@ -165,7 +165,7 @@ exports.create_sportEnergyTransaction = function(req, res) {
         if (res1.rows.length == 0) {
           var options = { 
             method: 'POST',
-            url: 'http://127.0.0.1:8080/api/v1/sportEnergyAccount/',
+            url: '/api/v1/sportEnergyAccount/',
             headers: 
              { 'cache-control': 'no-cache',
                'content-type': 'application/json' },

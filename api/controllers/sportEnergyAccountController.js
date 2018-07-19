@@ -130,7 +130,7 @@ exports.delete_sportEnergyAccount = function(req, res) {
   if (req.query.pointAccountId) {
     pool.connect((err, client, done) => {
       if (err) throw err;
-      const text = 'delete from sport_energy_account where point_account_id = $1;'
+      const text = 'delete from sport_energy_account where point_account_id = $1 returning *;'
       const values = [req.query.pointAccountId];
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
@@ -138,7 +138,7 @@ exports.delete_sportEnergyAccount = function(req, res) {
           console.log(err)
         } 
         else {
-          data = sportEnergyAccount;
+          data = sportEnergyAccount.rows;
           if (data.rowCount != 0) {
             res.send({
               "code": "200",
@@ -170,7 +170,7 @@ exports.delete_sportEnergyAccount = function(req, res) {
   else if (req.query.cardNumber) {
     pool.connect((err, client, done) => {
       if (err) throw err;
-      const text = 'delete from sport_energy_account where card_number = $1;'
+      const text = 'delete from sport_energy_account where card_number = $1 returning *;'
       const values = [req.query.cardNumber];
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
@@ -178,7 +178,7 @@ exports.delete_sportEnergyAccount = function(req, res) {
           console.log(err)
         } 
         else {
-          data = sportEnergyAccount;
+          data = sportEnergyAccount.rows;
           if (data.rowCount != 0) {
             res.send({
               "code": "200",
@@ -216,7 +216,7 @@ exports.update_sportEnergyAccount = function(req, res) {
     pool.connect((err, client, done) => {
       if (err) throw err;
       else {
-        const text2 = 'update sport_energy_account set point_balance = $1, update_by = $2, update_time = now() where card_number = $3;'
+        const text2 = 'update sport_energy_account set point_balance = $1, update_by = $2, update_time = now() where card_number = $3 returning *;'
         const values2 = [req.body.pointBalance, req.body.operator, req.query.cardNumber]; 
         client.query(text2, values2, (err, sportEnergyAccount) => {
           done()
@@ -225,7 +225,7 @@ exports.update_sportEnergyAccount = function(req, res) {
           } 
           else {
             count = sportEnergyAccount.rowCount;
-            data = sportEnergyAccount;
+            data = sportEnergyAccount.rows;
             if (count == 1) {
               res.send({
               "code": "200",

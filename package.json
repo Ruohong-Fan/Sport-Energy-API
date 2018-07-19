@@ -12,6 +12,7 @@
     "install": "^0.12.1",
     "mongoose": "^5.1.1",
     "pg": "^7.4.3",
+    "request": "^2.87.0",
     "swagger": "^0.7.5",
     "swagger-express-mw": "^0.7.0"
   },
