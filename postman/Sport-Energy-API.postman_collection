@@ -11,24 +11,22 @@
 			"name": "Read Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}",
+					"raw": "{{base_url_sport_energy_account}}?pointAccountId=19&cardNumber=2090537712050",
 					"host": [
 						"{{base_url_sport_energy_account}}"
 					],
 					"query": [
 						{
 							"key": "pointAccountId",
-							"value": "1",
+							"value": "19",
 							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						},
 						{
 							"key": "cardNumber",
-							"value": "2090537712049",
+							"value": "2090537712050",
 							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						},
 						{
 							"key": "sf",
@@ -71,17 +69,16 @@
 			"name": "Update Sport Energy Account",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_account}}",
+					"raw": "{{base_url_sport_energy_account}}?cardNumber=2090537712050",
 					"host": [
 						"{{base_url_sport_energy_account}}"
 					],
 					"query": [
 						{
-							"key": "pointAccountId",
-							"value": "17",
+							"key": "cardNumber",
+							"value": "2090537712050",
 							"equals": true,
-							"description": "",
-							"disabled": true
+							"description": ""
 						}
 					],
 					"variable": []
@@ -145,7 +142,7 @@
 			"name": "Read Sport Energy Transaction",
 			"request": {
 				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}?pointAccountId=18",
+					"raw": "{{base_url_sport_energy_transaction}}?pointTransactionId=8",
 					"host": [
 						"{{base_url_sport_energy_transaction}}"
 					],
@@ -154,11 +151,18 @@
 							"key": "pointAccountId",
 							"value": "18",
 							"equals": true,
-							"description": ""
+							"description": "",
+							"disabled": true
 						},
 						{
 							"key": "pointTransactionId",
-							"value": "2",
+							"value": "8",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "cardNumber",
+							"value": "20905377120501",
 							"equals": true,
 							"description": "",
 							"disabled": true
@@ -190,38 +194,6 @@
 					"raw": "{\n\t\"cardNumber\": \"2090537712050\", \n\t\"pointChange\": 3000,\n    \"pointStatus\": null,\n\t\"eventId\": 438293,\n    \"expireTime\": \"2019-12-30T16:00:00.000Z\",\n    \"externalId\": \"38501924370\",\n\t\"operator\": \"RFAN27\",\n\t\"transactionDetail\": [\n        {\n            \"itemCode\": \"834750\",\n            \"lineNumber\": 1,\n            \"quantity\": 1,\n            \"pointChangeItem\": 1200\n        },\n        {\n            \"itemCode\": \"834750\",\n            \"lineNumber\": 2,\n            \"quantity\": 1,\n            \"pointChangeItem\": 1200\n        },\n        {\n            \"itemCode\": \"8350\",\n            \"lineNumber\": 3,\n            \"quantity\": 10,\n            \"pointChangeItem\": 600\n        }\n    ]\n}"
 				},
 				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Sport Energy Transaction (not ready)",
-			"request": {
-				"url": {
-					"raw": "{{base_url_sport_energy_transaction}}?point_account_id=2",
-					"host": [
-						"{{base_url_sport_energy_transaction}}"
-					],
-					"query": [
-						{
-							"key": "point_account_id",
-							"value": "2",
-							"equals": true,
-							"description": ""
-						}
-					],
-					"variable": []
-				},
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
-						"description": "",
-						"disabled": true
-					}
-				],
-				"body": {},
-				"description": null
 			},
 			"response": []
 		}
