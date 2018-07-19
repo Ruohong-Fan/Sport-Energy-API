@@ -26,7 +26,6 @@ exports.read_sportEnergyTransaction = function(req, res) {
             data1 = sportEnergyTransaction.rows;
             var i = 0;
             var transaction_detail = new Array(data1.length);
-            console.log(transaction_detail);
             while (i<data1.length) {
               transaction_detail[i] = {
                 "item_code": data1[i].item_code,
@@ -79,7 +78,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
       client.query(text, values, (err, sportEnergyTransaction) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           if (sportEnergyTransaction.rows[0]) {
@@ -111,7 +110,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
       client.query(text, values, (err, sportEnergyTransaction) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           if (sportEnergyTransaction.rows[0]) {
