@@ -18,14 +18,14 @@ exports.read_sportEnergyAccount = function(req, res) {
       client.query(text, (err, sportEnergyAccount) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           data = sportEnergyAccount.rows;
           res.json({
             "code": "200",
-            "message": "Success",
-            "entity": "",
+            "message": "Read data successfully.",
+            "entity": "sportEnergyAccountController",
             data
           })
         }
@@ -42,14 +42,14 @@ exports.read_sportEnergyAccount = function(req, res) {
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           data = sportEnergyAccount.rows;
           res.json({
             "code": "200",
-            "message": "Success",
-            "entity": "",
+            "message": "Read data successfully based on the account id you provided.",
+            "entity": "sportEnergyAccountController",
             data
           })
         }
@@ -66,14 +66,14 @@ exports.read_sportEnergyAccount = function(req, res) {
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           data = sportEnergyAccount.rows;
           res.json({
             "code": "200",
-            "message": "Success",
-            "entity": "",
+            "message": "Read data successfully based on the card number you provided.",
+            "entity": "sportEnergyAccountController",
             data
           })
         }
@@ -85,8 +85,8 @@ exports.read_sportEnergyAccount = function(req, res) {
   else {
     res.json({
       "code": "400",
-      "message": "No sufficient information, data not found.",
-      "entity": ""
+      "message": "The parameter you provided was not recognized.",
+      "entity": "sportEnergyAccountController"
     });
   }
 };
@@ -101,14 +101,14 @@ exports.create_sportEnergyAccount = function(req, res) {
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
           data = sportEnergyAccount;
           res.send({
             "code": "200",
-            "message": "success",
-            "entity": "",
+            "message": "Create energy point account successfully.",
+            "entity": "sportEnergyAccountController",
             data
           });
         }
@@ -119,8 +119,8 @@ exports.create_sportEnergyAccount = function(req, res) {
   else {
     res.json({
       "code": "400",
-      "message": "No sufficient information, data not found.",
-      "entity": ""
+      "message": "2 parameters: cardNumber and operator must be provided to create a sport energy account.",
+      "entity": "sportEnergyAccountController"
     });
   }
 };
@@ -139,10 +139,26 @@ exports.delete_sportEnergyAccount = function(req, res) {
         } 
         else {
           data = sportEnergyAccount;
+          if (data.rowCount != 0) {
+            res.send({
+              "code": "200",
+              "message": "Deleted successfully.",
+              "entity": "sportEnergyAccountController",
+              data
+            });
+          }
+          else {
+            res.send({
+              "code": "201",
+              "message": "No energy point account was deleted based on the account id that you provided.",
+              "entity": "sportEnergyAccountController",
+              data
+            });
+          }
           res.send({
             "code": "200",
             "message": "success",
-            "entity": "",
+            "entity": "sportEnergyAccountController",
             data
           });
         }
@@ -163,12 +179,22 @@ exports.delete_sportEnergyAccount = function(req, res) {
         } 
         else {
           data = sportEnergyAccount;
-          res.send({
-            "code": "200",
-            "message": "success",
-            "entity": "",
-            data
-          });
+          if (data.rowCount != 0) {
+            res.send({
+              "code": "200",
+              "message": "Deleted successfully.",
+              "entity": "sportEnergyAccountController",
+              data
+            });
+          }
+          else {
+            res.send({
+              "code": "201",
+              "message": "No energy point account was deleted based on the card number that you provided.",
+              "entity": "sportEnergyAccountController",
+              data
+            });
+          }
         }
       })
     });
@@ -178,20 +204,20 @@ exports.delete_sportEnergyAccount = function(req, res) {
   else {
     res.json({
       "code": "400",
-      "message": "No sufficient information, data not found.",
-      "entity": ""
+      "message": "You can only delete a sport energy account by account id or card number, other parameter is not recognized.",
+      "entity": "sportEnergyAccountController"
     });
   }
 };
 
 exports.update_sportEnergyAccount = function(req, res) {
   //Update balance by account id
-  if (req.query.pointAccountId && req.body.operator && req.body.pointBalance) {
+  if (req.query.cardNumber && req.body.operator && req.body.pointBalance) {
     pool.connect((err, client, done) => {
       if (err) throw err;
       else {
-        const text2 = 'update sport_energy_account set point_balance = $1, update_by = $2, update_time = now() where point_account_id = $3;'
-        const values2 = [req.body.pointBalance, req.body.operator, req.query.pointAccountId]; 
+        const text2 = 'update sport_energy_account set point_balance = $1, update_by = $2, update_time = now() where card_number = $3;'
+        const values2 = [req.body.pointBalance, req.body.operator, req.query.cardNumber]; 
         client.query(text2, values2, (err, sportEnergyAccount) => {
           done()
           if (err) {
@@ -203,16 +229,16 @@ exports.update_sportEnergyAccount = function(req, res) {
             if (count == 1) {
               res.send({
               "code": "200",
-              "message": "success",
-              "entity": "",
+              "message": "Updated successfully.",
+              "entity": "sportEnergyAccountController",
               data
               });
             }
             else if (count == 0) {
               res.send({
               "code": "404",
-              "message": "Unable to find the point account id.",
-              "entity": ""
+              "message": "Unable to find the card number that you provided.",
+              "entity": "sportEnergyAccountController"
               });
             }
           }
@@ -224,8 +250,8 @@ exports.update_sportEnergyAccount = function(req, res) {
   else {
     res.json({
       "code": "400",
-      "message": "No sufficient information, data not found.",
-      "entity": ""
+      "message": "3 parameters: cardNumber, operator and pointBalance must be provided to update a sport energy account",
+      "entity": "sportEnergyAccountController"
     });
   }
 };

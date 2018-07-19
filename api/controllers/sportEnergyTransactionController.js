@@ -19,44 +19,53 @@ exports.read_sportEnergyTransaction = function(req, res) {
       client.query(text, values, (err, sportEnergyTransaction) => {
         done()
         if (err) {
-          console.log(err.stack)
+          res.send(err.stack)
         } 
         else {
-          data1 = sportEnergyTransaction.rows;
-          var i = 0;
-          var transaction_detail = new Array(data1.length);
-          console.log(transaction_detail);
-          while (i<data1.length) {
-            transaction_detail[i] = {
-              "item_code": data1[i].item_code,
-              "line_number": data1[i].line_number,
-              "quantity": data1[i].quantity,
-              "point_change_item": data1[i].point_change_item
-            };
-            i++;
+          if (sportEnergyTransaction.rows[0]) {
+            data1 = sportEnergyTransaction.rows;
+            var i = 0;
+            var transaction_detail = new Array(data1.length);
+            console.log(transaction_detail);
+            while (i<data1.length) {
+              transaction_detail[i] = {
+                "item_code": data1[i].item_code,
+                "line_number": data1[i].line_number,
+                "quantity": data1[i].quantity,
+                "point_change_item": data1[i].point_change_item
+              };
+              i++;
+            }
+            res.json({
+              "code": "200",
+              "message": "Read data successfully.",
+              "entity": "sportEnergyTransactionController",
+              "data": [
+                {
+                  "point_transaction_id": data1[0].point_transaction_id,
+                  "point_account_id": data1[0].point_account_id,
+                  "point_change": data1[0].point_change,
+                  "point_status": data1[0].point_status,
+                  "event_id": data1[0].event_id,
+                  "create_by": data1[0].create_by,
+                  "create_time": data1[0].create_time,
+                  "update_by": data1[0].update_by,
+                  "update_time": data1[0].update_time,
+                  "expire_time": data1[0].expire_time,
+                  "external_id": data1[0].external_id,
+                  "card_number": data1[0].card_number,
+                  transaction_detail
+                },
+              ]
+            })
           }
-          res.json({
-            "code": "200",
-            "message": "Success",
-            "entity": "",
-            "data": [
-              {
-                "point_transaction_id": data1[0].point_transaction_id,
-                "point_account_id": data1[0].point_account_id,
-                "point_change": data1[0].point_change,
-                "point_status": data1[0].point_status,
-                "event_id": data1[0].event_id,
-                "create_by": data1[0].create_by,
-                "create_time": data1[0].create_time,
-                "update_by": data1[0].update_by,
-                "update_time": data1[0].update_time,
-                "expire_time": data1[0].expire_time,
-                "external_id": data1[0].external_id,
-                "card_number": data1[0].card_number,
-                transaction_detail
-              },
-            ]
-          })
+          else {
+            res.json({
+              "code": "401",
+              "message": "This transaction id does not exist.",
+              "entity": "sportEnergyTransactionController"
+            })
+          }
         }
       })
     });
@@ -65,7 +74,7 @@ exports.read_sportEnergyTransaction = function(req, res) {
   else if (req.query.pointAccountId) {
     pool.connect((err, client, done) => {
       if (err) throw err
-      const text = 'select * from sport_energy_transaction a inner join sport_energy_transaction_detail b on a.point_transaction_id = b.point_transaction_id where a.point_account_id = $1;'
+      const text = 'select * from sport_energy_transaction where point_account_id = $1;'
       const values = [req.query.pointAccountId];
       client.query(text, values, (err, sportEnergyTransaction) => {
         done()
@@ -73,40 +82,54 @@ exports.read_sportEnergyTransaction = function(req, res) {
           console.log(err.stack)
         } 
         else {
-          data1 = sportEnergyTransaction.rows;
-          var i = 0;
-          var transaction_detail = new Array(data1.length);
-          while (i<data1.length) {
-            transaction_detail[i] = {
-              "item_code": data1[i].item_code,
-              "line_number": data1[i].line_number,
-              "quantity": data1[i].quantity,
-              "point_change_item": data1[i].point_change_item
-            };
-            i++;
+          if (sportEnergyTransaction.rows[0]) {
+            data1 = sportEnergyTransaction.rows;
+            res.json({
+              "code": "200",
+              "message": "Read data successfully.",
+              "entity": "sportEnergyTransactionController",
+              data1
+            })
           }
-          res.json({
-            "code": "200",
-            "message": "Success",
-            "entity": "",
-            "data": [
-              {
-                "point_transaction_id": data1[0].point_transaction_id,
-                "point_account_id": data1[0].point_account_id,
-                "point_change": data1[0].point_change,
-                "point_status": data1[0].point_status,
-                "event_id": data1[0].event_id,
-                "create_by": data1[0].create_by,
-                "create_time": data1[0].create_time,
-                "update_by": data1[0].update_by,
-                "update_time": data1[0].update_time,
-                "expire_time": data1[0].expire_time,
-                "external_id": data1[0].external_id,
-                "card_number": data1[0].card_number,
-                transaction_detail
-              },
-            ]
-          })
+          else {
+            res.json({
+              "code": "401",
+              "message": "This account id does not have related energy point transactions.",
+              "entity": "sportEnergyTransactionController"
+            })
+          }
+        }
+      })
+    });
+  }
+  //Search by card number
+  else if (req.query.cardNumber) {
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      const text = 'select * from sport_energy_transaction where card_number = $1;'
+      const values = [req.query.cardNumber];
+      client.query(text, values, (err, sportEnergyTransaction) => {
+        done()
+        if (err) {
+          console.log(err.stack)
+        } 
+        else {
+          if (sportEnergyTransaction.rows[0]) {
+            data1 = sportEnergyTransaction.rows;
+            res.json({
+              "code": "200",
+              "message": "Read data successfully.",
+              "entity": "sportEnergyTransactionController",
+              data1
+            })
+          }
+          else {
+            res.json({
+              "code": "401",
+              "message": "This card number does not have related energy point transactions.",
+              "entity": "sportEnergyTransactionController"
+            })
+          }
         }
       })
     });
@@ -115,8 +138,8 @@ exports.read_sportEnergyTransaction = function(req, res) {
   else {
     res.json({
       "code": "400",
-      "message": "No sufficient information, data not found.",
-      "entity": ""
+      "message": "1 of the 3 parameters must provided to get correct information: pointTransactionId, pointAccountId or cardNumber.",
+      "entity": "sportEnergyTransactionController"
     });
   }
 };
@@ -163,7 +186,7 @@ exports.create_sportEnergyTransaction = function(req, res) {
             res.json({
               "code": "200",
               "message": "Transaction created successfully.",
-              "entity": ""
+              "entity": "sportEnergyTransactionController"
             })
             done()
           })
@@ -172,7 +195,7 @@ exports.create_sportEnergyTransaction = function(req, res) {
           res.json({
             "code": "400",
             "message": "The card number doesn't exist.",
-            "entity": ""
+            "entity": "sportEnergyTransactionController"
           })
         }
       })
@@ -182,6 +205,7 @@ exports.create_sportEnergyTransaction = function(req, res) {
     res.json({
       "code": "400",
       "message": "Information not sufficient, no transaction created.",
-      "entity": ""})
+      "entity": "sportEnergyTransactionController"
+    })
   }
 };
