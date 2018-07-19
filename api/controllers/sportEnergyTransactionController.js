@@ -1,4 +1,5 @@
 const { Pool, Client } = require('pg');
+var request = require('request');
 // clients will use environment variables
 // for connection information
 const pool = new Pool();
@@ -161,6 +162,47 @@ exports.create_sportEnergyTransaction = function(req, res) {
       }
       client.query('select point_account_id, point_balance from sport_energy_account where card_number = $1;', [req.body.cardNumber], (err, res1) => {
         if (shouldAbort(err)) return;
+        if (res1.rows.length == 0) {
+          var options = { 
+            method: 'POST',
+            url: 'http://127.0.0.1:8080/api/v1/sportEnergyAccount/',
+            headers: 
+             { 'cache-control': 'no-cache',
+               'content-type': 'application/json' },
+            body: { cardNumber: req.body.cardNumber, operator: req.body.operator },
+            json: true 
+          };
+          request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            const text1 = 'insert into sport_energy_transaction VALUES (DEFAULT, $1, $2, null, $3, $4, now(), null, null, $5, $6, $7) RETURNING point_transaction_id;'
+            const values1 = [body.data[0].point_account_id, req.body.pointChange, req.body.eventId, req.body.operator, req.body.expireTime, req.body.externalId, req.body.cardNumber]
+            client.query(text1, values1, (err, res2) => {
+              if (shouldAbort(err)) return
+              var i = 0;
+              const text2 = 'insert into sport_energy_transaction_detail VALUES ($1, $2, $3, $4, $5, null);'
+              while (i < req.body.transactionDetail.length) {
+                values2 = [res2.rows[0].point_transaction_id, req.body.transactionDetail[i].itemCode, req.body.transactionDetail[i].lineNumber, req.body.transactionDetail[i].quantity, req.body.transactionDetail[i].pointChangeItem];
+                client.query(text2, values2, (err) => {
+                  if (err) {
+                    console.error('Error committing transaction', err.stack)
+                  }
+                  done()
+                })
+                i++;
+              }
+              client.query('update sport_energy_account set point_balance = $1 where card_number = $2;', [body.data[0].point_balance+req.body.pointChange, req.body.cardNumber], (err) => {
+                if (shouldAbort(err)) return;
+                done()
+              })
+              res.json({
+                "code": "200",
+                "message": "Transaction created successfully.",
+                "entity": "sportEnergyTransactionController"
+              })
+              done()
+            })
+          });
+        }
         else if (res1.rows.length > 0) {
           const text1 = 'insert into sport_energy_transaction VALUES (DEFAULT, $1, $2, null, $3, $4, now(), null, null, $5, $6, $7) RETURNING point_transaction_id;'
           const values1 = [res1.rows[0].point_account_id, req.body.pointChange, req.body.eventId, req.body.operator, req.body.expireTime, req.body.externalId, req.body.cardNumber]
@@ -188,13 +230,6 @@ exports.create_sportEnergyTransaction = function(req, res) {
               "entity": "sportEnergyTransactionController"
             })
             done()
-          })
-        }
-        else {
-          res.json({
-            "code": "400",
-            "message": "The card number doesn't exist.",
-            "entity": "sportEnergyTransactionController"
           })
         }
       })

@@ -96,7 +96,7 @@ exports.create_sportEnergyAccount = function(req, res) {
   if (req.body.cardNumber && req.body.operator) {
     pool.connect((err, client, done) => {
       if (err) throw err;
-      const text = 'insert into sport_energy_account values (DEFAULT, $1, 0, $2, now(), null);'
+      const text = 'insert into sport_energy_account values (DEFAULT, $1, 0, $2, now(), null) returning *;'
       const values = [req.body.cardNumber, req.body.operator];
       client.query(text, values, (err, sportEnergyAccount) => {
         done()
@@ -104,7 +104,7 @@ exports.create_sportEnergyAccount = function(req, res) {
           res.send(err.stack)
         } 
         else {
-          data = sportEnergyAccount;
+          data = sportEnergyAccount.rows;
           res.send({
             "code": "200",
             "message": "Create energy point account successfully.",
